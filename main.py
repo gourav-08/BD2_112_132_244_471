@@ -11,7 +11,7 @@ from pyspark.sql.types import StructType,StructField,StringType
 from preprocess import pre_process
 from models import PAClassifier
 
-my_schema = StructType([StructField('id', StringType(), False), StructField('Tweet', StringType(), False)])
+my_schema = StructType([StructField('Sentiment', StringType(), False), StructField('Tweet', StringType(), False)])
 
 
 config = SparkConf()
@@ -33,7 +33,7 @@ def create_dataframe(rdd):
 	rows = map(lambda x: Row(**x),records) 
 	Dataframe = sqlContext.createDataFrame(rows,my_schema)
 	if Dataframe.count() >0:
-		Dataframe = preprocess(Dataframe)
+		Dataframe = pre_process(Dataframe)
 		Model1 = PAClassifier(Dataframe)
 		pickle.dump(Model1,open("PAC.pickle",'wb'))
 
