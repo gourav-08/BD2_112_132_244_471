@@ -23,8 +23,7 @@ def create_dataframe(rdd):
 	sp = SparkContext.getOrCreate()
 	sqlContext = SQLContext(sp)
 	collection = rdd.collect()
-	
-    records = []
+	records = []
 	
 	for i in collection:
 		for j in json.loads(i).values():
