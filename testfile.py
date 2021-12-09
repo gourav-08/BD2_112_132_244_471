@@ -20,7 +20,7 @@ config = SparkConf()
 config.setAppName("Sentiment")
 sc = SparkContext(conf=config)
 
-my_schema = StructType([StructField('Sentiment id', StringType(), False),StructField('Tweet', StringType(), False)])
+my_schema = StructType([StructField('Sentiment', StringType(), False),StructField('Tweet', StringType(), False)])
 
 #opening of files
 accuracy = open("accuracy.txt","w+")
@@ -44,7 +44,7 @@ def create_dataframe(rdd):
 	rows = map(lambda x: Row(**x),records) 
 	Dataframe = sqlContext.createDataFrame(rows,my_schema)
 	if Dataframe.count() >0:
-		Dataframe = preprocess(Dataframe)
+		Dataframe = pre_process(Dataframe)
 		feature = np.array(Dataframe.select("features ").collect())
 		sentiment = np.array(Dataframe.select("Sentiment id").collect())
 		new_feature = np.squeeze(feature)
